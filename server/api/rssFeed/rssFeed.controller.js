@@ -87,13 +87,22 @@ function actualizaFeed() {
             parser.parseString(response.body, function (err, result) {
 
                 getAllFeed().then(function (allFeedDB) {
+                    // console.log('Cantidad--->'+allFeedDB.length);
                     //allFeedDB.length
                     var items = result.rss.channel[0].item;
+                    /*console.log('Channel-->'+result.rss.channel.length);
+                    console.log('Channel_0-->'+result.rss.channel[0].length);
+                    console.log('Channel_items-->'+result.rss.channel.item);
+                     console.log('Channel_0_items-->'+result.rss.channel[0].item);
+                    */
                     items.forEach(function (item) {
 
+                        //console.log('title->'+item.title);
                         allFeedDB.forEach(function (itemDB) {
-                            if (item.title[0].match(new RegExp(itemDB.title.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), 'ig'))) {
-
+                           //console.log('-->Compare '+itemDB.title +' && '+ item.title[0])
+                            //console.log('--------->'+itemDB.title);
+                            if (itemDB.title !=null && item.title[0].match(new RegExp(itemDB.title.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), 'ig'))) {
+                                //console.log('DONENENENENENE');
                                 //anyadimos un contador
                                 if (itemDB.quantity === null) {
                                     itemDB.quantity = 0;
@@ -124,12 +133,14 @@ function actualizaFeed() {
                                         //long: -111.933231, //optional longitude field for GeoRSS,
                                 });
                                 cont++;
-                                //console.log(cont);
+                                console.log(cont);
 
                                 aa.push(itemDB);
+                                //console.log('CantidadInsertados->'+aa.length);
 
                             } else {
                                 cont++;
+                                //console.log('>>>>>>>'+cont);
                             }
                         });
                     });
