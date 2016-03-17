@@ -9,6 +9,7 @@ var http = require('http');
 var xml2jsParser = require('xml2js');
 var unirest = require('unirest');
 var CronJob = require('cron').CronJob;
+var request = require("request");
 
 
 
@@ -51,10 +52,10 @@ function actualizaFeed() {
                             if (item.title[0].match(new RegExp(itemDB.title.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), 'ig'))) {
                                 var urlImagen = item.description[0].substring(item.description[0].indexOf('src="'));
 
-
+                                console.log('image');
                                 results.items.push({
                                     title: item.title,
-                                    description: item.description[0].substring(item.description[0].indexOf('src="') + ('strc=').length, urlImagen.indexOf('"', 5) + ('strc=').length),
+                                    description: getImage(item.link[0]),
                                     url: item.link[0].replace(configuracion.returnConfig().urlInicial, configuracion.returnConfig().urlFinal), // link to the item
                                     guid: 'strGuid', // optional - defaults to url
                                     //categories: ['Category 1', 'Category 2', 'Category 3', 'Category 4'], // optional - array of item categories
@@ -79,6 +80,34 @@ function actualizaFeed() {
     });
 
 }
+
+
+
+function getImage(url) {
+    
+    request(url, function (error, response, body) {
+        console.log("url"+url);
+        var parser = new htmlparser.Parser({
+            onopentag: function (name, attribs) {
+                if (name === "img" && attribs.class === "thumbimg") {
+                    console.log('------'+attribs.src);
+                    return attribs.src;
+                }
+            },
+            ontext: function (text) {
+                //console.log("-->", text);
+            },
+            onclosetag: function (tagname) {
+                if (tagname === "script") {
+                  // console.log("That's it?!");
+                }
+            }
+        }, {
+            decodeEntities: true
+        });
+        parser.write(body);
+        parser.end();
+    });
 
 
 

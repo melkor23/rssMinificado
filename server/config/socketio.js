@@ -17,6 +17,7 @@ function onConnect(socket) {
     });
 
     // Insert sockets below
+    require('../api/getImage/getImage.socket').register(socket);
     require('../api/tmdb/tmdb.socket').register(socket);
     require('../api/search/search.socket').register(socket);
     require('../api/rssFeed/rssFeed.socket').register(socket);
