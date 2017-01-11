@@ -6,9 +6,9 @@ var rss = require("rss");
 
 exports.returnConfig = function () {
     var configActual = {};
-    configActual.feedAll = 'http://www.divxatope.com/feeds.xml' //pagina de donde se cogen los Feeds para mostrar
-    configActual.urlInicial = 'http://www.divxatope.com/descargar/';
-    configActual.urlFinal = 'http://www.divxatope.com/torrent/';
+    configActual.feedAll = 'http://www.divxatope1.com/feeds.xml' //pagina de donde se cogen los Feeds para mostrar
+    configActual.urlInicial = 'http://www.divxatope1.com/descargar/';
+    configActual.urlFinal = 'http://www.divxatope1.com/torrent/';
 
 
     var cronJobActualizacion = {
